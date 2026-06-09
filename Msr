@@ -1,0 +1,45 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int r = sc.nextInt();
+        int c = sc.nextInt();
+
+        int[][] a = new int[r][c];
+        int[][] dp = new int[r][c];
+
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                a[i][j] = sc.nextInt();
+            }
+        }
+
+        for (int j = 0; j < c; j++) {
+            dp[0][j] = a[0][j];
+        }
+
+        for (int i = 1; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+
+                int up = dp[i - 1][j];
+
+                int leftDiag = (j > 0) ? dp[i - 1][j - 1] : 0;
+
+                int rightDiag = (j < c - 1) ? dp[i - 1][j + 1] : 0;
+
+                dp[i][j] = a[i][j] +
+                           Math.max(up,
+                           Math.max(leftDiag, rightDiag));
+            }
+        }
+
+        int ans = 0;
+        for (int j = 0; j < c; j++) {
+            ans = Math.max(ans, dp[r - 1][j]);
+        }
+
+        System.out.println(ans);
+    }
+}
