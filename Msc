@@ -1,0 +1,47 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int r = sc.nextInt();
+        int c = sc.nextInt();
+
+        int[][] a = new int[r][c];
+        int[][] dp = new int[r][c];
+
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                a[i][j] = sc.nextInt();
+            }
+        }
+
+        // First column
+        for (int i = 0; i < r; i++) {
+            dp[i][0] = a[i][0];
+        }
+
+        // Fill DP table column-wise
+        for (int j = 1; j < c; j++) {
+            for (int i = 0; i < r; i++) {
+
+                int left = dp[i][j - 1];
+
+                int leftUp = (i > 0) ? dp[i - 1][j - 1] : 0;
+
+                int leftDown = (i < r - 1) ? dp[i + 1][j - 1] : 0;
+
+                dp[i][j] = a[i][j] +
+                           Math.max(left,
+                           Math.max(leftUp, leftDown));
+            }
+        }
+
+        int ans = 0;
+        for (int i = 0; i < r; i++) {
+            ans = Math.max(ans, dp[i][c - 1]);
+        }
+
+        System.out.println(ans);
+    }
+}
