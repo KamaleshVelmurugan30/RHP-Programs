@@ -1,0 +1,47 @@
+import java.util.Scanner;
+public class LongestIncreasingPath {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int r = sc.nextInt();
+        int c = sc.nextInt();
+        int[][] matrix = new int[r][c];
+        for(int i = 0; i < r; i++) {
+            for(int j = 0; j < c; j++) {
+                matrix[i][j] = sc.nextInt();
+            }
+        }
+        System.out.println(solve(matrix));
+        sc.close();
+    }
+    static final int[][] path = {{-1,0},{1,0},{0,-1},{0,1}};
+    static int solve(int[][] matrix) {
+        int longestPath = 0;
+        int R = matrix.length, C = matrix[0].length;
+        int[][] dp = new int[R][C];
+        for(int i = 0; i < R; i++) {
+            for(int j = 0; j < C; j++) {
+                int max = dfs(matrix,dp,R,C,i,j);
+                longestPath = Math.max(max,longestPath);
+            }
+        }
+        return longestPath;
+    }
+    static int dfs(int[][] matrix,int[][] dp, int R, int C, int r, int c) {
+        if(dp[r][c] > 0) {
+            return dp[r][c];
+        }
+        int adjMax = 0;
+        for(int i = 0; i < 4; i++) {
+            int newRow = r + path[i][0];
+            int newCol = c + path[i][1];
+            if(newRow >= 0 && newRow < R && newCol >= 0 && newCol < C) {
+                if(matrix[r][c] < matrix[newRow][newCol]) {
+                    int localMax = dfs(matrix, dp, R, C, newRow, newCol);
+                    adjMax = Math.max(localMax,adjMax);
+                }
+            }
+        }
+        dp[r][c] = adjMax + 1;
+        return adjMax + 1;
+    }
+}
