@@ -54,7 +54,7 @@ int main() {
                     tryPush(br, bc, 1);  
                     tryPush(br, bc + 1, 1); 
                 }
-            }
+            } //by Kamalesh
         } else {
             for (int bc = c - 1; bc <= c; bc++) {
                 int br = r;
